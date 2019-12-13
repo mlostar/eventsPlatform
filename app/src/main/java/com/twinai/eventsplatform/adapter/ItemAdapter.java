@@ -47,7 +47,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-        holder.bindItem(mEvents.get(position));
+        holder.bindItem(mEvents.get(position),position);
     }
 
     @Override
@@ -71,8 +71,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             mContext = itemView.getContext();
             binding = bind;
         }
-        public void bindItem(EventItem eventItem){
+        public void bindItem(EventItem eventItem,int position){
 
+            binding.setPosition(position);
             binding.setEvent(eventItem);
             binding.setClickEvent(itemClickEvent);
             binding.itemText.setText(eventItem.getText());

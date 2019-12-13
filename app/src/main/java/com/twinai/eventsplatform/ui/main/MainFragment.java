@@ -47,7 +47,7 @@ public class MainFragment extends Fragment {
         mAdapter = new ItemAdapter(Collections.emptyList(), position -> {
             Bundle args = new Bundle();
             args.putParcelable("event",events.get(position));
-            mainActivity.navController.navigate(R.id.action_mainFragment_to_detailsFragment,args);
+            mainActivity.navController.navigate(R.id.detailsFragment,args);
         });
     }
 
@@ -87,7 +87,7 @@ public class MainFragment extends Fragment {
         }
     }
     void observeViewModel(){
-        mViewModel.eventItems.observe(this, eventItems -> mAdapter.swapDataSet(eventItems));
+        mViewModel.eventItems.observe(this, eventItems -> {mAdapter.swapDataSet(eventItems);events = eventItems;});
     }
 
 }
