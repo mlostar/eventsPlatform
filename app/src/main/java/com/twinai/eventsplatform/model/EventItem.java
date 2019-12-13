@@ -118,7 +118,7 @@ public class EventItem implements Parcelable{
 		if(getType() == null)setType("");
 
 		return
-				getName() + "/" + getCity() +"\n" +getDate() + " " +getType();
+				getName() + " " + getCity() +"\n" +getDate() + " " +getType();
 
 	}
 	public String getContent(){
