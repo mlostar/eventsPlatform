@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout><data>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"><data>
     <variable
         name="event"
-        type="com.twinai.eventsplatform.model.EventItem" />
+        type="com.twinai.eventsplatform.model.EventDetailModel" />
 </data>
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/grey_bg">
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:elevation="6dp"/>
         <androidx.cardview.widget.CardView
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -34,6 +45,7 @@
         android:layout_height="0dp"
         android:id="@+id/details_iv"
         android:layout_margin="24dp"
+        android:scaleType="fitXY"
         app:layout_constraintDimensionRatio="1:0.8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,6 +55,8 @@
     android:layout_marginTop="8dp"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
+    android:fontFamily="@font/msr_900"
+    android:textColor="@color/greyish_brown"
     android:text="@{event.getText()}"
     app:layout_constraintTop_toBottomOf="@id/details_iv"
     app:layout_constraintStart_toStartOf="parent"
@@ -54,6 +68,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@{event.getContent()}"
+
+        android:fontFamily="@font/msr_900"
+        android:textColor="@color/greyish_brown"
         app:layout_constraintTop_toBottomOf="@id/details_title"
         app:layout_constraintBottom_toTopOf="@id/details_url"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,22 +78,29 @@
         android:gravity="center"
         android:layout_margin="8dp"
         />
+
+
+
     <TextView
         android:id="@+id/details_url"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:autoLink="web"
         android:text="@{event.getUrl()}"
+
+        android:fontFamily="@font/msr_900"
+        android:textColor="@color/greyish_brown"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:gravity="center"
         android:layout_margin="8dp"
         android:layout_marginBottom="24dp"
-        
+
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

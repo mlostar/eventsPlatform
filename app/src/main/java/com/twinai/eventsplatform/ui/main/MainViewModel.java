@@ -1,37 +1,49 @@
 package com.twinai.eventsplatform.ui.main;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
+import android.widget.Toast;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.Moshi;
-import com.squareup.moshi.Types;
+import com.squareup.picasso.Downloader;
 import com.twinai.eventsplatform.MainActivity;
-import com.twinai.eventsplatform.model.EventItem;
-import com.twinai.eventsplatform.other.JsonUtils;
+import com.twinai.eventsplatform.model.EventItemModel;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
+import java.net.URL;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+
 public class MainViewModel extends ViewModel {
-    public MutableLiveData<List<EventItem>> eventItems = new MutableLiveData<>();
+    public MutableLiveData<List<EventItemModel>> eventItems = new MutableLiveData<>();
+    public MutableLiveData<Boolean> loading = new MutableLiveData<>();
     void fetchFeed(MainActivity mainActivity){
-        //TODO This is dummy data
-        String fileName = "items.json";
-        String loadJSONFromAsset = JsonUtils.loadJSONFromAsset(mainActivity, fileName);
-        Moshi moshi = new Moshi.Builder().build();
-        Type listMyData = Types.newParameterizedType(List.class, EventItem.class);
-        JsonAdapter<List<EventItem>> adapter = moshi.adapter(listMyData);
-        List<EventItem> response = null;
-        try {
-            response  =  adapter.fromJson(loadJSONFromAsset);
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        loading.setValue(true);
+        mainActivity.networkModule.mApi.getEventFeed("200").enqueue(new Callback<List<EventItemModel>>() {
+            @Override
+            public void onResponse(Call<List<EventItemModel>> call, Response<List<EventItemModel>> response) {
+                eventItems.setValue(response.body());
+                loading.postValue(false);
+            }
+
+            @Override
+            public void onFailure(Call<List<EventItemModel>> call, Throwable t) {
+                loading.postValue(false);
+                Toast.makeText(mainActivity,"Failed request please check your internet connection",Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
         }
-        if(response!=null){
-        this.eventItems.setValue(response);
-        }
-        }
+
+
     }
 

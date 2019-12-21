@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     public NavController navController;
     public NavHostFragment navHostFragment;
     MainActivityBinding binding;
-    NetworkModule networkModule;
+    public NetworkModule networkModule;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

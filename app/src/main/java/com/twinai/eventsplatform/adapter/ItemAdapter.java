@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 import com.twinai.eventsplatform.R;
 import com.twinai.eventsplatform.databinding.MainListItemBinding;
 import com.twinai.eventsplatform.model.EventItem;
+import com.twinai.eventsplatform.model.EventItemModel;
 import com.twinai.eventsplatform.other.ItemClickEvent;
 
 import java.util.ArrayList;
@@ -27,12 +28,12 @@ import java.util.List;
  * All rights reserved.
  */
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> implements Filterable {
-    private List<EventItem> mEvents;
-    private List<EventItem> mFilteredCancel;
+    private List<EventItemModel> mEvents;
+    private List<EventItemModel> mFilteredCancel;
     private ItemClickEvent itemClickEvent;
     private NameFilter nameFilter;
     private CityFilter cityFilter;
-    public ItemAdapter(List<EventItem> events,ItemClickEvent clickEvent){
+    public ItemAdapter(List<EventItemModel> events,ItemClickEvent clickEvent){
         mEvents = events;
         mFilteredCancel = events;
         itemClickEvent = clickEvent;
@@ -79,7 +80,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             mContext = itemView.getContext();
             binding = bind;
         }
-        public void bindItem(EventItem eventItem,int position){
+        public void bindItem(EventItemModel eventItem,int position){
 
             binding.setPosition(position);
             binding.setEvent(eventItem);
@@ -90,12 +91,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         }
         }
 
-        public void swapDataSet(List<EventItem> newData) {
+        public void swapDataSet(List<EventItemModel> newData) {
         mEvents = newData;
         mFilteredCancel = newData;
         notifyDataSetChanged();
     }
-    public void filterRefresh(List<EventItem> newData){
+    public void filterRefresh(List<EventItemModel> newData){
         mEvents = newData;
         notifyDataSetChanged();
     }
@@ -104,7 +105,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         protected FilterResults performFiltering(CharSequence charSequence) {
             FilterResults results = new FilterResults();
             if (charSequence != null && charSequence.length() > 0) {
-                List<EventItem> filterList = new ArrayList<>();
+                List<EventItemModel> filterList = new ArrayList<>();
                 for (int i = 0; i < mEvents.size(); i++) {
                     if ((mEvents.get(i).getName().toUpperCase()).contains(charSequence.toString().toUpperCase())) {
                         filterList.add(mEvents.get(i));
@@ -121,7 +122,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            filterRefresh((List<EventItem>) filterResults.values);
+            filterRefresh((List<EventItemModel>) filterResults.values);
             notifyDataSetChanged();
         }
     }
@@ -130,7 +131,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         protected FilterResults performFiltering(CharSequence charSequence) {
             FilterResults results = new FilterResults();
             if (charSequence != null && charSequence.length() > 0) {
-                List<EventItem> filterList = new ArrayList<>();
+                List<EventItemModel> filterList = new ArrayList<>();
                 for (int i = 0; i < mFilteredCancel.size(); i++) {
                     if ((mFilteredCancel.get(i).getCity().toUpperCase()).contains(charSequence.toString().toUpperCase())) {
                         filterList.add(mFilteredCancel.get(i));
@@ -147,7 +148,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            filterRefresh((List<EventItem>) filterResults.values);
+            filterRefresh((List<EventItemModel>) filterResults.values);
             notifyDataSetChanged();
         }
     }

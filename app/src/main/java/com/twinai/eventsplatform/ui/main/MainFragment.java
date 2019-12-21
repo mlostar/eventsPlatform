@@ -23,6 +23,7 @@ import com.twinai.eventsplatform.R;
 import com.twinai.eventsplatform.adapter.ItemAdapter;
 import com.twinai.eventsplatform.databinding.MainFragmentBinding;
 import com.twinai.eventsplatform.model.EventItem;
+import com.twinai.eventsplatform.model.EventItemModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,7 +35,7 @@ public class MainFragment extends Fragment {
     private ItemAdapter mAdapter;
     private MainActivity mainActivity;
     private MainFragmentBinding binding;
-    private List<EventItem> events;
+    private List<EventItemModel> events;
     private String[] cities = {"","Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Aksaray", "Amasya", "Ankara", "Antalya", "Ardahan", "Artvin", "Aydın", "Balıkesir","Bartın", "Batman", "Bayburt", "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli", "Diyarbakır", "Düzce", "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkâri", "Hatay", "Iğdır", "Isparta", "İstanbul", "İzmir", "Kahramanmaraş", "Karabük", "Karaman", "Kars", "Kastamonu", "Kayseri", "Kilis", "Kırıkkale", "Kırklareli", "Kırşehir", "Kocaeli", "Konya", "Kütahya", "Malatya", "Manisa", "Mardin", "Mersin", "Muğla", "Muş", "Nevşehir", "Niğde", "Ordu", "Osmaniye", "Rize", "Sakarya", "Samsun", "Şanlıurfa", "Siirt", "Sinop", "Sivas", "Şırnak", "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Uşak", "Van", "Yalova", "Yozgat", "Zonguldak"};
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -51,7 +52,7 @@ public class MainFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mAdapter = new ItemAdapter(Collections.emptyList(), position -> {
             Bundle args = new Bundle();
-            args.putParcelable("event",events.get(position));
+            args.putInt("event_id",events.get(position).getId());
             mainActivity.navController.navigate(R.id.detailsFragment,args);
         });
 
@@ -110,6 +111,7 @@ public class MainFragment extends Fragment {
 
     void observeViewModel(){
         mViewModel.eventItems.observe(this, eventItems -> {mAdapter.swapDataSet(eventItems);events = eventItems;});
+        mViewModel.loading.observe(this, aBoolean -> { if(aBoolean){binding.progressBar.setVisibility(View.VISIBLE);}else{binding.progressBar.setVisibility(View.GONE);};});
     }
 
 }

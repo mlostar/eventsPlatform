@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -19,6 +20,7 @@ import com.twinai.eventsplatform.MainActivity;
 import com.twinai.eventsplatform.R;
 import com.twinai.eventsplatform.databinding.DetailsFragmentBinding;
 import com.twinai.eventsplatform.databinding.MainFragmentBinding;
+import com.twinai.eventsplatform.model.EventDetailModel;
 import com.twinai.eventsplatform.model.EventItem;
 
 /**
@@ -30,6 +32,7 @@ public class DetailsFragment extends Fragment {
     private MainActivity mainActivity = null;
     private DetailsViewModel mViewModel = null;
     private DetailsFragmentBinding binding;
+    private int selected_event_id;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -51,15 +54,24 @@ public class DetailsFragment extends Fragment {
             super.onActivityCreated(savedInstanceState);
         if (mViewModel == null) {
             mViewModel = ViewModelProviders.of(this).get(DetailsViewModel.class);
-            EventItem event = getArguments().getParcelable("event");
-            mViewModel.selectedEvent = event;
-            binding.setEvent(event);
-            Picasso.get().load(event.getImage()).into(binding.detailsIv);
+            selected_event_id = getArguments().getInt("event_id");
+            mViewModel.fetchEventDetails(mainActivity,selected_event_id);
             observeViewModel();
         }
 
     }
 
     private void observeViewModel() {
+        mViewModel.eventDetails.observe(mainActivity, eventDetailModel -> {
+            binding.setEvent(eventDetailModel);
+            Picasso.get().load(eventDetailModel.getImage()).into(binding.detailsIv);
+        });
+        mViewModel.loading.observe(mainActivity, aBoolean -> {
+            if (aBoolean) {
+                binding.progressBar2.setVisibility(View.VISIBLE);
+            } else {
+                binding.progressBar2.setVisibility(View.GONE);
+            }
+        });
     }
 }

@@ -15,7 +15,7 @@
 
         <variable
             name="event"
-            type="com.twinai.eventsplatform.model.EventItem" />
+            type="com.twinai.eventsplatform.model.EventItemModel" />
 
     </data>
 
@@ -58,6 +58,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:gravity="center"
+                android:fontFamily="@font/msr_900"
+                android:textColor="@color/greyish_brown"
                 android:onClick="@{(v) -> clickEvent.onItemClicked(position)}"
                 android:text="@{event.getText()}"
                 android:textSize="14sp"
