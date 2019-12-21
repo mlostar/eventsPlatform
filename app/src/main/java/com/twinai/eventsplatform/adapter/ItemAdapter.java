@@ -31,6 +31,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     private List<EventItem> mFilteredCancel;
     private ItemClickEvent itemClickEvent;
     private NameFilter nameFilter;
+    private CityFilter cityFilter;
     public ItemAdapter(List<EventItem> events,ItemClickEvent clickEvent){
         mEvents = events;
         mFilteredCancel = events;
@@ -61,6 +62,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                 nameFilter = new NameFilter();
             }
             return nameFilter;
+    }
+    public Filter getCityFilter(){
+        if(cityFilter == null){
+            cityFilter = new CityFilter();
+
+        }
+        return cityFilter;
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -100,6 +108,32 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                 for (int i = 0; i < mEvents.size(); i++) {
                     if ((mEvents.get(i).getName().toUpperCase()).contains(charSequence.toString().toUpperCase())) {
                         filterList.add(mEvents.get(i));
+                    }
+                }
+                results.count = filterList.size();
+                results.values = filterList;
+            } else {
+                results.count = mFilteredCancel.size();
+                results.values = mFilteredCancel;
+            }
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            filterRefresh((List<EventItem>) filterResults.values);
+            notifyDataSetChanged();
+        }
+    }
+    private class CityFilter extends Filter{
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            FilterResults results = new FilterResults();
+            if (charSequence != null && charSequence.length() > 0) {
+                List<EventItem> filterList = new ArrayList<>();
+                for (int i = 0; i < mFilteredCancel.size(); i++) {
+                    if ((mFilteredCancel.get(i).getCity().toUpperCase()).contains(charSequence.toString().toUpperCase())) {
+                        filterList.add(mFilteredCancel.get(i));
                     }
                 }
                 results.count = filterList.size();
