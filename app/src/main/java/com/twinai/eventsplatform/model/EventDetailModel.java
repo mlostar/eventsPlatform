@@ -1,13 +1,10 @@
 package com.twinai.eventsplatform.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import javax.annotation.Generated;
 import com.squareup.moshi.Json;
 
 @Generated("com.robohorse.robopojogenerator")
-public class EventItem implements Parcelable{
+public class EventDetailModel {
 
 	@Json(name = "date")
 	private String date;
@@ -18,6 +15,9 @@ public class EventItem implements Parcelable{
 	@Json(name = "city")
 	private String city;
 
+	@Json(name = "org_id")
+	private Object orgId;
+
 	@Json(name = "name")
 	private String name;
 
@@ -27,7 +27,10 @@ public class EventItem implements Parcelable{
 	@Json(name = "location")
 	private String location;
 
-	@Json(name = "type_")
+	@Json(name = "id")
+	private int id;
+
+	@Json(name = "type")
 	private String type;
 
 	@Json(name = "url")
@@ -57,6 +60,14 @@ public class EventItem implements Parcelable{
 		return city;
 	}
 
+	public void setOrgId(Object orgId){
+		this.orgId = orgId;
+	}
+
+	public Object getOrgId(){
+		return orgId;
+	}
+
 	public void setName(String name){
 		this.name = name;
 	}
@@ -81,6 +92,14 @@ public class EventItem implements Parcelable{
 		return location;
 	}
 
+	public void setId(int id){
+		this.id = id;
+	}
+
+	public int getId(){
+		return id;
+	}
+
 	public void setType(String type){
 		this.type = type;
 	}
@@ -98,16 +117,21 @@ public class EventItem implements Parcelable{
 	}
 
 	@Override
-	public String toString(){
-		return
-				"EventItem{" +
-						"image = '" + image + '\'' +
-						",city = '" + city + '\'' +
-						",name = '" + name + '\'' +
-						",location = '" + location + '\'' +
-						",url = '" + url + '\'' +
-						"}";
-	}
+ 	public String toString(){
+		return 
+			"EventDetailModel{" +
+			"date = '" + date + '\'' + 
+			",image = '" + image + '\'' + 
+			",city = '" + city + '\'' + 
+			",org_id = '" + orgId + '\'' + 
+			",name = '" + name + '\'' + 
+			",description = '" + description + '\'' + 
+			",location = '" + location + '\'' + 
+			",id = '" + id + '\'' + 
+			",type = '" + type + '\'' + 
+			",url = '" + url + '\'' + 
+			"}";
+		}
 	public String getText(){
 		if(getName() == null)setName("");
 
@@ -118,7 +142,7 @@ public class EventItem implements Parcelable{
 		if(getType() == null)setType("");
 
 		return
-				getName() + " " + getCity() +"\n" +getDate() + " " +getType();
+				getName() + "\n" + getCity() +" " +getDate() + " " +getType();
 
 	}
 	public String getContent(){
@@ -129,45 +153,4 @@ public class EventItem implements Parcelable{
 
 		return getLocation() + "\n" + getDescription();
 	}
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel parcel, int i) {
-		parcel.writeString(image);
-		parcel.writeString(city);
-		parcel.writeString(name);
-		parcel.writeString(location);
-		parcel.writeString(url);
-		parcel.writeString(description);
-		parcel.writeString(date);
-		parcel.writeString(type);
-	}
-	public EventItem(Parcel parcel){
-		image = parcel.readString();
-		city = parcel.readString();
-		name = parcel.readString();
-		location = parcel.readString();
-		url = parcel.readString();
-		description = parcel.readString();
-		date = parcel.readString();
-		type = parcel.readString();
-	}
-	public static final Parcelable.Creator<EventItem> CREATOR = new Parcelable.Creator<EventItem>(){
-
-		@Override
-		public EventItem createFromParcel(Parcel parcel) {
-			return new EventItem(parcel);
-		}
-
-		@Override
-		public EventItem[] newArray(int size) {
-			return new EventItem[0];
-		}
-	};
-
-
 }

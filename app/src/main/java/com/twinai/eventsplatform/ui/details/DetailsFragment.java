@@ -9,19 +9,12 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.squareup.picasso.Picasso;
 import com.twinai.eventsplatform.MainActivity;
-import com.twinai.eventsplatform.R;
 import com.twinai.eventsplatform.databinding.DetailsFragmentBinding;
-import com.twinai.eventsplatform.databinding.MainFragmentBinding;
-import com.twinai.eventsplatform.model.EventDetailModel;
-import com.twinai.eventsplatform.model.EventItem;
 
 /**
  * Created by mertlostar on 10.12.2019

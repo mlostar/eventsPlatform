@@ -16,31 +16,84 @@
     android:background="@color/grey_bg"
     tools:context=".ui.main.MainFragment">
 
+
+
         <androidx.appcompat.widget.SearchView
             android:id="@+id/main_search"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@id/main_spinner"
+            android:layout_margin="5dp"
+            android:background="@color/grey_bg"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/main_search_btn"
             app:layout_constraintTop_toTopOf="parent" />
         <Spinner
-            android:id="@+id/main_spinner"
+            android:id="@+id/main_city_spinner"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="50dp"
             android:padding="5dp"
+            android:layout_marginTop="5dp"
             android:background="@android:drawable/editbox_dropdown_light_frame"
+            app:layout_constraintTop_toBottomOf="@id/main_search"
+            app:layout_constraintStart_toStartOf="parent"
+
+            />
+
+        <Spinner
+            android:id="@+id/main_type_spinner"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="@android:drawable/editbox_dropdown_light_frame"
+            android:padding="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toEndOf="@id/main_city_spinner"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/main_search"/>
+            app:layout_constraintTop_toBottomOf="@id/main_search"
+            app:layout_constraintBottom_toBottomOf="@id/main_city_spinner"
+            />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/main_feed"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/main_search"
+            app:layout_constraintTop_toBottomOf="@id/main_type_spinner"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/main_search_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="6dp"
+            app:cardBackgroundColor="@color/greyish_brown"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="6dp"
+            app:layout_constraintTop_toTopOf="@id/main_search"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/main_search"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@id/main_search"
+            >
 
+            <TextView
+                android:id="@+id/dialog_settings_tv_open"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/msr_900"
+                android:gravity="center"
+                android:paddingStart="18dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="18dp"
+                android:paddingBottom="10dp"
+                android:text="Filtrele"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+
+                />
+        </androidx.cardview.widget.CardView>
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyle"

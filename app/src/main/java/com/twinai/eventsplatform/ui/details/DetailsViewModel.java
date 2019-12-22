@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.twinai.eventsplatform.MainActivity;
 import com.twinai.eventsplatform.model.EventDetailModel;
-import com.twinai.eventsplatform.model.EventItem;
 
 import java.util.List;
 
@@ -35,7 +34,7 @@ public class DetailsViewModel extends ViewModel {
             @Override
             public void onFailure(Call<List<EventDetailModel>> call, Throwable t) {
                 loading.postValue(false);
-                Toast.makeText(mainActivity,"Failed request please check your internet connection",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mainActivity,"Lütfen internet bağlantınızı kontrol edip tekrar deneyin",Toast.LENGTH_SHORT).show();
             }
         });
 

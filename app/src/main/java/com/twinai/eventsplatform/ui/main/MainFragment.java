@@ -22,10 +22,8 @@ import com.twinai.eventsplatform.MainActivity;
 import com.twinai.eventsplatform.R;
 import com.twinai.eventsplatform.adapter.ItemAdapter;
 import com.twinai.eventsplatform.databinding.MainFragmentBinding;
-import com.twinai.eventsplatform.model.EventItem;
 import com.twinai.eventsplatform.model.EventItemModel;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,7 +34,25 @@ public class MainFragment extends Fragment {
     private MainActivity mainActivity;
     private MainFragmentBinding binding;
     private List<EventItemModel> events;
-    private String[] cities = {"","Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Aksaray", "Amasya", "Ankara", "Antalya", "Ardahan", "Artvin", "Aydın", "Balıkesir","Bartın", "Batman", "Bayburt", "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli", "Diyarbakır", "Düzce", "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkâri", "Hatay", "Iğdır", "Isparta", "İstanbul", "İzmir", "Kahramanmaraş", "Karabük", "Karaman", "Kars", "Kastamonu", "Kayseri", "Kilis", "Kırıkkale", "Kırklareli", "Kırşehir", "Kocaeli", "Konya", "Kütahya", "Malatya", "Manisa", "Mardin", "Mersin", "Muğla", "Muş", "Nevşehir", "Niğde", "Ordu", "Osmaniye", "Rize", "Sakarya", "Samsun", "Şanlıurfa", "Siirt", "Sinop", "Sivas", "Şırnak", "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Uşak", "Van", "Yalova", "Yozgat", "Zonguldak"};
+    private String[] cities = {"Şehir","Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Aksaray", "Amasya", "Ankara", "Antalya", "Ardahan", "Artvin", "Aydın", "Balıkesir","Bartın", "Batman", "Bayburt", "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli", "Diyarbakır", "Düzce", "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkâri", "Hatay", "Iğdır", "Isparta", "İstanbul", "İzmir", "Kahramanmaraş", "Karabük", "Karaman", "Kars", "Kastamonu", "Kayseri", "Kilis", "Kırıkkale", "Kırklareli", "Kırşehir", "Kocaeli", "Konya", "Kütahya", "Malatya", "Manisa", "Mardin", "Mersin", "Muğla", "Muş", "Nevşehir", "Niğde", "Ordu", "Osmaniye", "Rize", "Sakarya", "Samsun", "Şanlıurfa", "Siirt", "Sinop", "Sivas", "Şırnak", "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Uşak", "Van", "Yalova", "Yozgat", "Zonguldak"};
+    private String[] types ={"Etkinlik Türü","Çocuk",
+            "Tasavvuf",
+            "Tiyatro",
+            "Dram",
+            "Müzik",
+            "Dans",
+            "Konser",
+            "Sinema",
+            "Oyun",
+            "Konferans",
+            "Seminer",
+            "Eğitim",
+            "Atölye",
+            "Komedi",
+            "Senfoni",
+            "Trajedi",
+            "Workshop"
+    };
     public static MainFragment newInstance() {
         return new MainFragment();
     }
@@ -78,32 +94,24 @@ public class MainFragment extends Fragment {
             binding.setViewModel(mViewModel);
             binding.mainFeed.setAdapter(mAdapter);
             binding.mainFeed.setLayoutManager(new LinearLayoutManager(mainActivity));
-            binding.mainSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    mAdapter.getFilter().filter(query);
-                    return false;
-                }
-
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    mAdapter.getFilter().filter(newText);
-                    return false;
-                }
+            binding.mainSearch.setQueryHint("Etkinlik ara");
+            binding.mainCitySpinner.setSelection(0);
+            binding.mainTypeSpinner.setSelection(0);
+            binding.mainSearchBtn.setOnClickListener(view -> {
+                int pos_city = binding.mainCitySpinner.getSelectedItemPosition();
+                String city = cities[pos_city];
+                if(city.equals("Şehir"))city = "None";
+                int pos_types = binding.mainTypeSpinner.getSelectedItemPosition();
+                String type = types[pos_types];
+                if(type.equals("Etkinlik Türü"))type = "None";
+                if(type.equals("Müzik"))type="müzi";
+                String query =  binding.mainSearch.getQuery().toString();
+                if(query.equals(""))query="None";
+                mViewModel.searchEvents(mainActivity,query,city,type);
             });
-            binding.mainSpinner.setAdapter(new ArrayAdapter<String>(mainActivity, android.R.layout.simple_list_item_1, cities));
-            binding.mainSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    mAdapter.getCityFilter().filter(cities[i]);
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-                    mAdapter.getCityFilter().filter("");
-
-                }
-            });
+            binding.mainCitySpinner.setAdapter(new ArrayAdapter<String>(mainActivity, android.R.layout.simple_selectable_list_item
+                    , cities));
+            binding.mainTypeSpinner.setAdapter(new ArrayAdapter<String>(mainActivity,android.R.layout.simple_list_item_1,types));
             mViewModel.fetchFeed(mainActivity);
             observeViewModel();
         }
