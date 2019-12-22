@@ -65,4 +65,26 @@ public class MainFragmentTest extends TestCase {
         fragment.mViewModel.searchEvents(controller.get(),"test","test","test");
         fragment.mViewModel.searchEvents(controller.get(),"istanbul","None","None");
     }
+    @Test
+    public void performanceTest(){
+        controller  = Robolectric.buildActivity(MainActivity.class).create().start().visible();
+        MainFragment fragment = (MainFragment) controller.get().navHostFragment.getChildFragmentManager().getFragments().get(0);
+        assertNotNull(fragment);
+        long start = System.currentTimeMillis();
+        fragment.mViewModel.fetchFeed(controller.get());
+        assertTrue(System.currentTimeMillis() - start < 2000);
+        start = System.currentTimeMillis();
+        fragment.mViewModel.searchEvents(controller.get(),"test","test","test");
+        assertTrue(System.currentTimeMillis() - start < 2000);
+
+    }
+    @Test
+    public void loadTest(){
+        controller  = Robolectric.buildActivity(MainActivity.class).create().start().visible();
+        MainFragment fragment = (MainFragment) controller.get().navHostFragment.getChildFragmentManager().getFragments().get(0);
+        assertNotNull(fragment);
+        for(int i=0;i<100;i++) {
+            fragment.mViewModel.fetchFeed(controller.get());
+        }
+    }
 }
