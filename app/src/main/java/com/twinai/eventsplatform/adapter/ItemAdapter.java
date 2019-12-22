@@ -66,7 +66,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             binding.setEvent(eventItem);
             binding.setClickEvent(itemClickEvent);
             binding.itemText.setText(eventItem.getText());
-            Picasso.get().load(eventItem.getImage()).into(binding.itemImage);
+            try{
+                Picasso.get().load(eventItem.getImage()).into(binding.itemImage);
+            }catch (IllegalStateException e){
+                e.printStackTrace();
+            }
             binding.invalidateAll();
         }
         }

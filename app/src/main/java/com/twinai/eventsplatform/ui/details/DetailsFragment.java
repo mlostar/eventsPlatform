@@ -24,7 +24,7 @@ import com.twinai.eventsplatform.databinding.DetailsFragmentBinding;
 public class DetailsFragment extends Fragment {
     private MainActivity mainActivity = null;
     private DetailsViewModel mViewModel = null;
-    private DetailsFragmentBinding binding;
+    public DetailsFragmentBinding binding;
     private int selected_event_id;
     @Override
     public void onAttach(Context context) {
@@ -47,7 +47,9 @@ public class DetailsFragment extends Fragment {
             super.onActivityCreated(savedInstanceState);
         if (mViewModel == null) {
             mViewModel = ViewModelProviders.of(this).get(DetailsViewModel.class);
-            selected_event_id = getArguments().getInt("event_id");
+            if(getArguments()!=null) {
+                selected_event_id = getArguments().getInt("event_id");
+            }
             mViewModel.fetchEventDetails(mainActivity,selected_event_id);
             observeViewModel();
         }

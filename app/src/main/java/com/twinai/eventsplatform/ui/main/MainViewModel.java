@@ -27,26 +27,8 @@ public class MainViewModel extends ViewModel {
     void fetchFeed(MainActivity mainActivity){
 
         loading.setValue(true);
-        mainActivity.networkModule.mApi.getEventFeed("200").enqueue(new Callback<List<EventItemModel>>() {
-            @Override
-            public void onResponse(Call<List<EventItemModel>> call, Response<List<EventItemModel>> response) {
-                eventItems.setValue(response.body());
-                loading.postValue(false);
-            }
-
-            @Override
-            public void onFailure(Call<List<EventItemModel>> call, Throwable t) {
-                loading.postValue(false);
-                Toast.makeText(mainActivity,"Lütfen internet bağlantınızı kontrol edip tekrar deneyin",Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-
-        }
-        void searchEvents(MainActivity mainActivity,String keyword,String city,String type){
-        loading.postValue(true);
-        mainActivity.networkModule.mApi.searchEvents(keyword,city,type).enqueue(new Callback<List<EventItemModel>>() {
+        if(mainActivity!=null) {
+            mainActivity.networkModule.mApi.getEventFeed("200").enqueue(new Callback<List<EventItemModel>>() {
                 @Override
                 public void onResponse(Call<List<EventItemModel>> call, Response<List<EventItemModel>> response) {
                     eventItems.setValue(response.body());
@@ -56,13 +38,34 @@ public class MainViewModel extends ViewModel {
                 @Override
                 public void onFailure(Call<List<EventItemModel>> call, Throwable t) {
                     loading.postValue(false);
-                    if(t instanceof JsonDataException){
+                    Toast.makeText(mainActivity, "Lütfen internet bağlantınızı kontrol edip tekrar deneyin", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+        }
+
+        }
+        void searchEvents(MainActivity mainActivity,String keyword,String city,String type){
+        if(mainActivity!=null) {
+            loading.postValue(true);
+            mainActivity.networkModule.mApi.searchEvents(keyword, city, type).enqueue(new Callback<List<EventItemModel>>() {
+                @Override
+                public void onResponse(Call<List<EventItemModel>> call, Response<List<EventItemModel>> response) {
+                    eventItems.setValue(response.body());
+                    loading.postValue(false);
+                }
+
+                @Override
+                public void onFailure(Call<List<EventItemModel>> call, Throwable t) {
+                    loading.postValue(false);
+                    if (t instanceof JsonDataException) {
                         Toast.makeText(mainActivity, "Filtrelere uygun sonuç bulunamadı", Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         Toast.makeText(mainActivity, "Lütfen internet bağlantınızı kontrol edip tekrar deneyin", Toast.LENGTH_SHORT).show();
                     }
-                    }
+                }
             });
+        }
         }
 
 
